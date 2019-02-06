@@ -31,7 +31,7 @@ public class MostCommonWord {
             bannedWords.add(s.toLowerCase());
         }
 
-        paragraph = paragraph.toLowerCase().replaceAll("[^a-z\\s]", "").toLowerCase();
+        paragraph = paragraph.toLowerCase().replaceAll("[^a-z\\s]", " ").toLowerCase();
         String[] words = paragraph.split("\\s+");
         Map<String, Integer> wordCountMap = new HashMap<>();
 
