@@ -53,4 +53,35 @@ class Solution {
 
         return cnt;
     }
+      
+    /* ================== OPTIMIZED ================== */
+
+    public int pathSum_Optimized(TreeNode root, int targetSum) {
+        Map<Integer, Integer> prefixSumMap = new HashMap<>();
+        prefixSumMap.put(0, 1);
+        return pathSum_Optimized(root, targetSum, 0, prefixSumMap);
+    }
+
+    // Refer: 560. Subarray Sum Equals K
+    private int pathSum_Optimized(TreeNode node, int targetSum, int runningSum, Map<Integer, Integer> prefixSumMap) {
+        if (node == null) {
+            return 0;
+        }
+
+        int cnt = 0;
+        int currentPrefixSum = runningSum + node.val;
+        int desiredPrefixSum = currentPrefixSum - targetSum;
+        if (prefixSumMap.containsKey(desiredPrefixSum)) {
+            cnt += prefixSumMap.get(desiredPrefixSum);
+        }
+
+        prefixSumMap.put(currentPrefixSum, prefixSumMap.getOrDefault(currentPrefixSum, 0) + 1);
+
+        cnt += pathSum_Optimized(node.left, targetSum, currentPrefixSum, prefixSumMap);
+        cnt += pathSum_Optimized(node.right, targetSum, currentPrefixSum, prefixSumMap);
+
+        // Backtrack
+        prefixSumMap.put(currentPrefixSum, prefixSumMap.get(currentPrefixSum) - 1);
+        return cnt;
+    }
 }
