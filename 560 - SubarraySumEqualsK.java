@@ -27,13 +27,14 @@ class Solution {
 
         for (int num : nums) {
             sum += num;
-            // Increment the occurrences of current sum
-            prefixMap.put(sum, prefixMap.getOrDefault(sum, 0) + 1);
 
             int desiredPrefixSumToReachTarget = sum - target;
             if (prefixMap.containsKey(desiredPrefixSumToReachTarget)) {
                 cnt += prefixMap.get(desiredPrefixSumToReachTarget);
             }
+            
+            // Increment the occurrences of current sum
+            prefixMap.put(sum, prefixMap.getOrDefault(sum, 0) + 1);
         }
 
         return cnt;
