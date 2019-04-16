@@ -17,8 +17,14 @@ Output: -1
 Note: You may assume that you have an infinite number of each kind of coin.
 */
 
+import java.util.HashMap;
+import java.util.Map;
+
 class Solution {
-    public int coinChange(int[] denominations, int amount) {
+    /*********************************************************************/
+    /***************************** BOTTOM UP *****************************/
+    /*********************************************************************/
+    public int coinChange_bottomUp(int[] denominations, int amount) {
         int[] total = new int[amount + 1];
         for (int i = 1; i < total.length; i++) {
             total[i] = -1;
@@ -33,5 +39,33 @@ class Solution {
         }
 
         return total[amount];
+    }
+
+    /*********************************************************************/
+    /****************************** TOP DOWN *****************************/
+    /*********************************************************************/
+    public int coinChange_topDown(int[] denominations, int amount) {
+        Map<Integer, Integer> cache = new HashMap<>();
+        cache.put(0, 0);
+        return coinChange_topDown(denominations, amount, cache);
+    }
+
+    private int coinChange_topDown(int[] denominations, int amount, Map<Integer, Integer> cache) {
+        if (cache.containsKey(amount)) {
+            return cache.get(amount);
+        } else if (amount < 0) {
+            return -1;
+        }
+
+        int min = -1;
+        for (int coin : denominations) {
+            int cur = coinChange_topDown(denominations, amount - coin, cache);
+            if (cur != -1) {
+                min = min == -1 ? cur + 1 : Math.min(cur + 1, min);
+            }
+        }
+
+        cache.put(amount, min);
+        return min;
     }
 }
