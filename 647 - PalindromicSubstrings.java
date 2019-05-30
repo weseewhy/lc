@@ -75,5 +75,5 @@ dp[i][j]  --> Substring between i and j (included) is a palindrome
 
 dp[i][j] = true   when i=j
          = S[i] == S[j] (chars at ends must be equal)
-           && dp[i-1][j+1] = true (if a substring exists between i & j, it must be a palindrome)
+           && dp[i+1][j-1] = true (if a substring exists between i & j, it must be a palindrome)
  */
