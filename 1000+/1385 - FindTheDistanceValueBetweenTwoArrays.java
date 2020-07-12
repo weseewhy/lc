@@ -40,18 +40,17 @@ Constraints:
 class Solution {
     public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
         int cnt = 0;
-        for (int i : arr1) {
-            boolean flag = true;
-            for (int j : arr2) {
-                if (Math.abs(i - j) <= d) {
-                    flag = false;
-                    break;
-                }
-            }
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int num : arr2) {
+            set.add(num);
+        }
 
-            if (flag) {
-                cnt++;
-            }
+        for (int num : arr1) {
+            Integer bigger = set.ceiling(num);
+            Integer smaller = set.floor(num);
+            if (bigger != null && bigger - num <= d) continue;
+            if (smaller != null && num - smaller <= d) continue;
+            if (smaller != null || bigger != null) cnt++;
         }
 
         return cnt;
